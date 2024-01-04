@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: "Chakra Petch", sans-serif;
+  background-color: #01080e;
+}
+
+h1 {
+  color: #6bd1ff;
+  font-size: 2.875rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.celula {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  cursor: pointer;
+  border: 1px solid #1875e9;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 128px;
+  color: #e3f0ff;
+}
+
+#pontuacao {
+  text-align: center;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 36px;
+  color: #e3f0ff;
+}
+
+#placar {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 36px;
+  color: #1875e9;
+}

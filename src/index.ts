@@ -7,34 +7,10 @@ type SimboloJogador = "X" | "O";
 let jogadorAtual: SimboloJogador = "X";
 let tabuleiro: Array<SimboloJogador | null> = Array(9).fill(null);
 
-// Interfaces
-interface Jogador {
-  nome: string;
-  simbolo: SimboloJogador;
-}
-
-let jogador1: Jogador = { nome: "", simbolo: "X" };
-let jogador2: Jogador = { nome: "", simbolo: "O" };
-
-// Type Assertions
-function iniciarJogo(): void {
-  const nomeJogador1 = (
-    document.getElementById("nomeJogador1") as HTMLInputElement
-  ).value;
-  const nomeJogador2 = (
-    document.getElementById("nomeJogador2") as HTMLInputElement
-  ).value;
-
-  jogador1 = { nome: nomeJogador1, simbolo: "X" };
-  jogador2 = { nome: nomeJogador2, simbolo: "O" };
-
-  atualizarPontuacao(jogador1, jogador2);
-  document.querySelector(".entrada-jogador")!.classList.add("escondido");
-  document.getElementById("containerJogo")!.classList.remove("escondido");
-}
-
-// Adicionar evento de clique ao botão de iniciar jogo
-document.getElementById("botaoIniciar")!.addEventListener("click", iniciarJogo);
+// Tuplas
+let tuplaVencedora: [number, number, number];
+// Types
+type CombinacaoVencedora = typeof tuplaVencedora;
 
 // Enums
 enum StatusJogo {
@@ -52,29 +28,8 @@ const celulas = Array.from(
   elementoTabuleiro.querySelectorAll(".celula")
 ) as Array<HTMLDivElement>;
 
-// Utilizando Generics
-function atualizarPontuacao<T extends Jogador>(jogador1: T, jogador2: T): void {
-  document.getElementById(
-    "pontuacao"
-  )!.textContent = `${jogador1.nome} (X) - ${pontuacaoX} | ${jogador2.nome} (O) - ${pontuacaoO}`;
-}
-
-// Funções
-function reiniciarJogo(): void {
-  tabuleiro.fill(null);
-  jogoAcabou = false;
-  statusJogo = StatusJogo.EmAndamento;
-  celulas.forEach((celula) => (celula.textContent = ""));
-  atualizarPontuacao(jogador1, jogador2);
-}
-
-// Tuplas
-let tuplaVencedora: [number, number, number];
-// Types
-type CombinaçãoVencedora = typeof tuplaVencedora;
-
-function verificarVencedor() {
-  const combinacoesVitoria: CombinaçãoVencedora[] = [
+function verificarVencedor(): void {
+  const combinacoesVitoria: CombinacaoVencedora[] = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -94,10 +49,7 @@ function verificarVencedor() {
     ) {
       statusJogo = StatusJogo.Vitoria;
       jogoAcabou = true;
-      const vencedor =
-        jogadorAtual === "X"
-          ? `Jogador ${jogador1.nome}`
-          : `Jogador ${jogador2.nome}`;
+      const vencedor = jogadorAtual === "X" ? `Jogador X` : `Jogador O`;
       if (jogadorAtual === "X") {
         pontuacaoX++;
       } else {
@@ -119,6 +71,22 @@ function verificarVencedor() {
       reiniciarJogo();
     }, 100);
   }
+}
+
+// Utilizando Generics
+function atualizarPontuacao(): void {
+  document.getElementById(
+    "pontuacao"
+  )!.textContent = `Jogador (X) - ${pontuacaoX} | Jogador (O) - ${pontuacaoO}`;
+}
+
+// Funções
+function reiniciarJogo(): void {
+  tabuleiro.fill(null);
+  jogoAcabou = false;
+  statusJogo = StatusJogo.EmAndamento;
+  celulas.forEach((celula) => (celula.textContent = ""));
+  atualizarPontuacao();
 }
 
 document.querySelectorAll(".celula").forEach((celula, indice) => {
